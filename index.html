@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuarkForce Universe Hub</title>
+<meta name="description" content="The QuarkForce Universe Hub — characters, QuarkZine, QuarkUniversity, Canvas Wars, and the JawsAtak47 music division, all in one living ecosystem.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<div class="shell">
+
+  <header class="topnav">
+    <div class="topnav-inner">
+      <div class="brand">
+        <span class="brand-mark">⬡</span> QuarkForce
+        <span class="brand-sub">Universe Hub</span>
+      </div>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#" class="navlink active" data-view="home">Home</a>
+        <a href="#" class="navlink" data-view="characters">Characters</a>
+        <a href="#" class="navlink" data-view="zines">QuarkZine</a>
+        <a href="#" class="navlink" data-view="university">QuarkUniversity</a>
+        <a href="#" class="navlink" data-view="challenges">Challenges</a>
+        <a href="#" class="navlink" data-view="canvaswars">Canvas Wars</a>
+        <a href="#" class="navlink" data-view="music">Music</a>
+      </nav>
+      <div class="nav-stats">
+        <div class="xp-chip"><span id="xp-display">0</span>&nbsp;XP</div>
+        <div class="rank-chip" id="rank-chip">Observer</div>
+      </div>
+      <button class="navtoggle" id="navtoggle" aria-label="Toggle menu" aria-expanded="false">
+        <svg class="icon" viewBox="0 0 24 24" width="22" height="22"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+    <nav class="mobilenav" id="mobilenav" aria-label="Primary mobile">
+      <a href="#" class="navlink active" data-view="home">Home</a>
+      <a href="#" class="navlink" data-view="characters">Characters</a>
+      <a href="#" class="navlink" data-view="zines">QuarkZine</a>
+      <a href="#" class="navlink" data-view="university">QuarkUniversity</a>
+      <a href="#" class="navlink" data-view="challenges">Challenges</a>
+      <a href="#" class="navlink" data-view="canvaswars">Canvas Wars</a>
+      <a href="#" class="navlink" data-view="music">Music</a>
+    </nav>
+  </header>
+
+  <main class="main" id="main">
+    <div class="wrap">
+
+      <!-- HOME -->
+      <section class="view active" id="view-home">
+        <div class="hero">
+          <div class="hero-kicker">QuarkForce · Medford, Oregon</div>
+          <h1>Where creativity<br>becomes an <span class="accent">adventure.</span></h1>
+          <p>Art. Education. Music. Community. Events. IP. One living universe built by JawsAtak47 — enter through any door.</p>
+          <div class="hero-actions">
+            <button class="btn accent" data-go="characters">Explore the roster</button>
+            <button class="btn" data-go="zines">Read QuarkZine</button>
+            <button class="btn" data-go="challenges">Join a challenge</button>
+          </div>
+        </div>
+
+        <div class="spotlight-rail">
+          <div class="spotlight-card" data-go="zines">
+            <div class="spotlight-label">Latest issue</div>
+            <div class="spotlight-value">Issue 06</div>
+            <div class="spotlight-sub">Sound &amp; Vision — out now</div>
+          </div>
+          <div class="spotlight-card" data-go="characters">
+            <div class="spotlight-label">Featured character</div>
+            <div class="spotlight-value">BlackPacalyps</div>
+            <div class="spotlight-sub">Monster Island · Protagonist</div>
+          </div>
+          <div class="spotlight-card" data-go="challenges">
+            <div class="spotlight-label">Live challenge</div>
+            <div class="spotlight-value">MonsTober Mascot</div>
+            <div class="spotlight-sub">Draw a monster · 200 XP</div>
+          </div>
+          <div class="spotlight-card" data-go="canvaswars">
+            <div class="spotlight-label">Upcoming event</div>
+            <div class="spotlight-value">MonsTober</div>
+            <div class="spotlight-sub">October · Medford, OR</div>
+          </div>
+        </div>
+
+        <div class="stat-strip">
+          <div class="stat-cell"><div class="stat-num">9</div><div class="stat-label">Characters</div></div>
+          <div class="stat-cell"><div class="stat-num">6+</div><div class="stat-label">Zine issues</div></div>
+          <div class="stat-cell"><div class="stat-num">160</div><div class="stat-label">QU classes</div></div>
+          <div class="stat-cell"><div class="stat-num">2</div><div class="stat-label">Worlds</div></div>
+          <div class="stat-cell"><div class="stat-num">$500</div><div class="stat-label">Prize pool</div></div>
+        </div>
+
+        <div class="shelf-title">Explore the universe</div>
+        <div class="module-grid">
+          <div class="module-card" data-go="characters">
+            <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg></div>
+            <h3>Characters</h3>
+            <p>Full bios, origins, powers, and unlockable content for every QuarkForce character.</p>
+            <span class="module-tag">9 in roster</span>
+          </div>
+          <div class="module-card" data-go="zines">
+            <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+            <h3>QuarkZine</h3>
+            <p>Digital reader with creator commentary, character links, and the full archive.</p>
+            <span class="module-tag">6 issues archived</span>
+          </div>
+          <div class="module-card" data-go="university">
+            <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3 2 8l10 5 10-5-10-5zM2 14l10 5 10-5M2 8v8M22 8v8"/></svg></div>
+            <h3>QuarkUniversity</h3>
+            <p>Graffiti, letters, sign painting, character design, and business for artists.</p>
+            <span class="module-tag">Free + premium</span>
+          </div>
+          <div class="module-card" data-go="challenges">
+            <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
+            <h3>Challenges</h3>
+            <p>Weekly missions. Earn XP, badges, and a shot at featured placement.</p>
+            <span class="module-tag">3 live now</span>
+          </div>
+          <div class="module-card" data-go="canvaswars">
+            <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM7 6H4a2 2 0 0 0 2 4M17 6h3a2 2 0 0 1-2 4"/></svg></div>
+            <h3>Canvas Wars</h3>
+            <p>Events, results, sponsor galleries, and the MonsTober art show.</p>
+            <span class="module-tag">Year 2 coming</span>
+          </div>
+          <div class="module-card" data-go="music">
+            <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM21 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg></div>
+            <h3>Music division</h3>
+            <p>The JawsAtak47 discography — every track is canon, every beat maps to the lore.</p>
+            <span class="module-tag">JawsAtak47</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHARACTERS -->
+      <section class="view" id="view-characters">
+        <div id="chars-list">
+          <div class="page-head">
+            <div>
+              <div class="page-kicker">The roster</div>
+              <h1>Characters</h1>
+              <p>Nine entities. Two worlds. Tap anyone to open their full profile.</p>
+            </div>
+          </div>
+          <div class="char-grid" id="char-grid"></div>
+        </div>
+
+        <div id="chars-detail" style="display:none">
+          <button class="btn sm" id="char-back" style="margin-bottom:18px">&larr; Back to roster</button>
+          <div class="char-detail">
+            <div class="char-detail-head">
+              <div class="char-detail-swatch" id="cd-swatch"></div>
+              <div class="char-detail-meta">
+                <h2 id="cd-name"></h2>
+                <div class="role-line" id="cd-role"></div>
+                <div class="world-line" id="cd-world"></div>
+              </div>
+            </div>
+
+            <div class="tab-row">
+              <button class="tab-btn active" data-tab="profile">Profile</button>
+              <button class="tab-btn" data-tab="media">Media</button>
+              <button class="tab-btn" data-tab="unlockables">Unlockables</button>
+              <button class="tab-btn" data-tab="lore">Deeper lore</button>
+            </div>
+
+            <div class="tab-pane active" id="tab-profile">
+              <div class="power-row" id="cd-powers"></div>
+              <p class="char-bio" id="cd-bio"></p>
+              <div class="appears-label">Appears in</div>
+              <div class="appears-row" id="cd-appears"></div>
+            </div>
+
+            <div class="tab-pane" id="tab-media">
+              <div class="media-grid">
+                <div class="media-tile"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Comics</div>
+                <div class="media-tile"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9v6l6-3z"/></svg>Audio log</div>
+                <div class="media-tile"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="5" width="14" height="14"/><path d="M17 9l4-3v12l-4-3"/></svg>Clips</div>
+              </div>
+            </div>
+
+            <div class="tab-pane" id="tab-unlockables">
+              <p style="font-size:13px;color:var(--ink-soft);margin-bottom:14px">Earn XP across the hub to unlock bonus content for this character.</p>
+              <div class="unlock-grid" id="cd-unlocks"></div>
+            </div>
+
+            <div class="tab-pane" id="tab-lore">
+              <p class="lore-text" id="cd-lore"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUARKZINE -->
+      <section class="view" id="view-zines">
+        <div id="zine-library">
+          <div class="page-head">
+            <div>
+              <div class="page-kicker">The archive</div>
+              <h1>QuarkZine</h1>
+              <p>The public-facing artifact of the QuarkForce universe. Six issues and counting.</p>
+            </div>
+            <button class="btn primary">QuarkPass — $8/mo</button>
+          </div>
+          <div class="zine-covers" id="zine-covers"></div>
+        </div>
+
+        <div id="zine-reader" style="display:none">
+          <button class="btn sm" id="zine-back" style="margin-bottom:18px">&larr; Back to archive</button>
+          <div class="reader">
+            <div class="reader-top">
+              <div class="reader-top-meta">
+                <div class="r-num" id="r-num"></div>
+                <div class="r-title" id="r-title"></div>
+              </div>
+              <div class="reader-nav">
+                <button class="btn sm" id="reader-prev">&larr; Prev</button>
+                <span class="reader-page-lbl" id="r-pg-lbl"></span>
+                <button class="btn sm" id="reader-next">Next &rarr;</button>
+              </div>
+            </div>
+            <div class="reader-spread">
+              <div class="reader-page" id="r-left"></div>
+              <div class="reader-page" id="r-right"></div>
+            </div>
+            <div class="reader-bottom">
+              <div class="commentary-label">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16v12H8l-4 4z"/></svg>
+                Creator commentary
+              </div>
+              <p class="commentary-text" id="r-commentary"></p>
+              <div class="charlink-row" id="r-charlinks"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUARKUNIVERSITY -->
+      <section class="view" id="view-university">
+        <div class="page-head">
+          <div>
+            <div class="page-kicker">10 schools · 160 classes</div>
+            <h1>QuarkUniversity</h1>
+            <p>Graffiti, lettering, sign painting, character design, and business — for artists who want both craft and income. Six schools live now, with more rolling out.</p>
+          </div>
+          <button class="btn primary">QuarkUniversity+ — $20/mo</button>
+        </div>
+
+        <div class="progress-panel">
+          <div class="progress-head">
+            <div class="pname">Your progress</div>
+            <div class="pxp"><span id="qu-xp">0</span> XP earned</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="qu-bar" style="width:0%"></div></div>
+          <div class="rank-track">
+            <span id="rs-0">Observer</span>
+            <span id="rs-1">Explorer</span>
+            <span id="rs-2">Creator</span>
+            <span id="rs-3">Builder</span>
+            <span id="rs-4">QuarkMaster</span>
+          </div>
+        </div>
+
+        <div class="school-grid" id="school-grid"></div>
+      </section>
+
+      <!-- CHALLENGES -->
+      <section class="view" id="view-challenges">
+        <div class="page-head">
+          <div>
+            <div class="page-kicker">Weekly missions</div>
+            <h1>Challenges</h1>
+            <p>Earn XP, badges, and featured placement across the universe.</p>
+          </div>
+        </div>
+        <div class="challenge-grid" id="challenge-grid"></div>
+      </section>
+
+      <!-- CANVAS WARS -->
+      <section class="view" id="view-canvaswars">
+        <div class="page-head">
+          <div>
+            <div class="page-kicker">The flagship event</div>
+            <h1>Canvas Wars</h1>
+            <p>Art as competition, in public, with stakes. Every round strengthens the ecosystem.</p>
+          </div>
+          <button class="btn primary">Register for Year 2</button>
+        </div>
+        <div id="event-list"></div>
+      </section>
+
+      <!-- MUSIC -->
+      <section class="view" id="view-music">
+        <div class="page-head">
+          <div>
+            <div class="page-kicker">JawsAtak47</div>
+            <h1>Music division</h1>
+            <p>Bay Area + Detroit roots, Medford production. Every track is universe lore.</p>
+          </div>
+        </div>
+        <div class="track-grid" id="track-grid"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>QuarkForce Universe Hub — built by JawsAtak47 · Medford, OR</span>
+      <span>Static site · No backend required</span>
+    </div>
+  </footer>
+
+</div>
+
+<script src="assets/data/universe.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
