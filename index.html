@@ -3,14 +3,418 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QuarkForce Universe Hub</title>
-<meta name="description" content="The QuarkForce Universe Hub — characters, QuarkZine, QuarkUniversity, Canvas Wars, and the JawsAtak47 music division, all in one living ecosystem.">
+<title>QuarkForce — Universe Hub</title>
+<meta name="description" content="The QuarkForce Universe Hub. Characters, QuarkZine, QuarkUniversity, Canvas Wars, and the JawsAtak47 music division.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+
+/* ================================================================
+   QUARKFORCE — "Late Night Monster Broadcast"
+   CRT black, swamp-glow green, hazard orange, blood-poster red.
+   ================================================================ */
+
+:root{
+  --void:#0a0e08;
+  --void-2:#11160d;
+  --panel:#161b13;
+  --panel-2:#1e2417;
+  --line:#2d3522;
+  --bone:#eae6d6;
+  --bone-dim:#a8a596;
+  --glow:#9fef3f;
+  --glow-dim:#5c9c1f;
+  --hazard:#ff6b1a;
+  --blood:#d4263f;
+  --violet:#9b6fd6;
+
+  --display:'Bungee', sans-serif;
+  --body:'Space Grotesk', sans-serif;
+  --mono:'JetBrains Mono', monospace;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void);
+  color:var(--bone);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.5;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+ul{list-style:none}
+::selection{background:var(--glow);color:var(--void)}
+:focus-visible{outline:3px solid var(--hazard);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
+
+/* film-grain / scanline overlay, fixed across the whole app */
+.grain{
+  position:fixed;inset:0;pointer-events:none;z-index:9000;
+  background-image:repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 3px);
+  mix-blend-mode:overlay;
+  opacity:.5;
+}
+.vignette{
+  position:fixed;inset:0;pointer-events:none;z-index:8999;
+  background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.45) 100%);
+}
+
+.skip-link{position:absolute;left:-9999px;top:0;background:var(--glow);color:var(--void);padding:10px 16px;z-index:99999;font-family:var(--mono);font-size:13px;font-weight:700}
+.skip-link:focus{left:0}
+
+/* ================================================================ NAV */
+
+.topnav{
+  position:sticky;top:0;z-index:500;
+  background:rgba(10,14,8,0.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 0 24px rgba(159,239,63,0.06);
+}
+.topnav-inner{max-width:1240px;margin:0 auto;display:flex;align-items:center;padding:0 20px;height:68px;gap:4px}
+
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;flex-shrink:0}
+.brand-mark{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--glow);color:var(--void);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-size:15px;
+  box-shadow:0 0 18px rgba(159,239,63,0.55);
+  flex-shrink:0;
+}
+.brand-text{font-family:var(--display);font-size:17px;letter-spacing:0.01em;color:var(--bone)}
+.brand-text .x{color:var(--glow)}
+
+.navlinks{display:none;gap:2px;align-items:center;height:100%}
+@media(min-width:920px){.navlinks{display:flex}}
+.navlink{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--bone-dim);padding:0 14px;height:68px;display:flex;align-items:center;gap:6px;
+  position:relative;transition:color .15s;cursor:pointer;
+}
+.navlink::after{content:'';position:absolute;bottom:0;left:14px;right:14px;height:2px;background:var(--glow);transform:scaleX(0);transition:transform .2s;box-shadow:0 0 8px var(--glow)}
+.navlink:hover{color:var(--bone)}
+.navlink.active{color:var(--glow)}
+.navlink.active::after{transform:scaleX(1)}
+
+.nav-stats{display:flex;align-items:center;gap:8px;margin-left:8px;flex-shrink:0}
+.xp-chip{
+  font-family:var(--mono);font-size:11px;font-weight:700;color:var(--void);
+  background:var(--glow);padding:6px 12px;border-radius:20px;
+  display:flex;align-items:center;gap:5px;white-space:nowrap;
+  box-shadow:0 0 14px rgba(159,239,63,0.4);
+}
+.rank-chip{
+  font-family:var(--mono);font-size:11px;color:var(--bone);
+  border:1px solid var(--line);padding:6px 12px;border-radius:20px;
+  white-space:nowrap;display:none;
+}
+@media(min-width:600px){.rank-chip{display:block}}
+
+.navtoggle{display:flex;width:38px;height:38px;align-items:center;justify-content:center;color:var(--bone);flex-shrink:0}
+@media(min-width:920px){.navtoggle{display:none}}
+
+.mobilenav{display:none;background:var(--void-2);border-bottom:1px solid var(--line);padding:6px 16px 14px}
+.mobilenav.open{display:block}
+.mobilenav .navlink{height:46px;width:100%;border-bottom:1px solid var(--line)}
+.mobilenav .navlink::after{display:none}
+.mobilenav .navlink.active{color:var(--glow)}
+
+/* ================================================================ MAIN */
+
+.main{flex:1}
+.wrap{max-width:1240px;margin:0 auto;padding:36px 20px 80px;position:relative;z-index:1}
+.view{display:none}
+.view.active{display:block;animation:fadein .35s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:32px}
+.page-kicker{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--glow);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.page-kicker::before{content:'';width:7px;height:7px;background:var(--glow);border-radius:50%;box-shadow:0 0 8px var(--glow)}
+.page-head h1{font-family:var(--display);font-size:clamp(30px,5vw,46px);line-height:1.05;color:var(--bone)}
+.page-head p{font-size:14.5px;color:var(--bone-dim);max-width:480px;margin-top:8px;line-height:1.6}
+
+.btn{
+  font-family:var(--mono);font-size:12px;letter-spacing:0.04em;text-transform:uppercase;font-weight:700;
+  padding:12px 20px;border:1.5px solid var(--line);background:transparent;color:var(--bone);
+  border-radius:6px;transition:all .15s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+}
+.btn:hover{border-color:var(--glow);color:var(--glow);box-shadow:0 0 16px rgba(159,239,63,0.18)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--glow);color:var(--void);border-color:var(--glow)}
+.btn.primary:hover{background:var(--bone);border-color:var(--bone);color:var(--void);box-shadow:0 0 20px rgba(234,230,214,0.3)}
+.btn.hazard{border-color:var(--hazard);color:var(--hazard)}
+.btn.hazard:hover{background:var(--hazard);color:var(--void);box-shadow:0 0 20px rgba(255,107,26,0.4)}
+.btn.sm{padding:8px 14px;font-size:11px}
+.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+
+/* ================================================================ HOME / HERO */
+
+.hero{
+  position:relative;overflow:hidden;border-radius:14px;
+  background:radial-gradient(ellipse 80% 100% at 70% 0%, rgba(159,239,63,0.10), transparent 60%), var(--panel);
+  border:1px solid var(--line);
+  padding:64px 36px;margin-bottom:28px;
+  isolation:isolate;
+}
+.hero-static{
+  position:absolute;inset:0;opacity:.35;mix-blend-mode:screen;pointer-events:none;
+  background-image:repeating-linear-gradient(100deg, transparent 0 24px, rgba(159,239,63,0.04) 24px 25px);
+}
+.hero-kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--hazard);margin-bottom:18px;display:flex;align-items:center;gap:10px;position:relative}
+.hero-kicker .dot{width:8px;height:8px;background:var(--hazard);border-radius:50%;box-shadow:0 0 10px var(--hazard);animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hero h1{
+  font-family:var(--display);font-size:clamp(38px,6.4vw,68px);line-height:1.04;
+  max-width:760px;margin-bottom:20px;position:relative;color:var(--bone);
+}
+.hero h1 .accent{color:var(--glow);text-shadow:0 0 24px rgba(159,239,63,0.55)}
+.hero p{font-size:16px;color:var(--bone-dim);max-width:480px;margin-bottom:30px;line-height:1.65;position:relative}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;position:relative}
+
+/* spotlight rail */
+.spotlight-rail{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
+@media(max-width:880px){.spotlight-rail{grid-template-columns:repeat(2,1fr)}}
+.spotlight-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:18px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden;
+}
+.spotlight-card:hover{border-color:var(--glow-dim);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.spotlight-label{font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:10px}
+.spotlight-value{font-family:var(--display);font-size:17px;color:var(--bone);margin-bottom:5px;line-height:1.15}
+.spotlight-sub{font-size:12px;color:var(--bone-dim)}
+
+/* stat strip */
+.stat-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:36px}
+@media(max-width:720px){.stat-strip{grid-template-columns:repeat(3,1fr)}}
+.stat-cell{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 12px;text-align:center}
+.stat-num{font-family:var(--display);font-size:26px;color:var(--glow)}
+.stat-label{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:0.06em;margin-top:5px;color:var(--bone-dim)}
+
+.shelf-title{font-family:var(--mono);font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.shelf-title::after{content:'';flex:1;height:1px;background:var(--line)}
+
+.module-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;margin-bottom:40px}
+.module-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;cursor:pointer;
+  transition:all .18s;position:relative;overflow:hidden;
+}
+.module-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent-color,var(--glow));opacity:0;transition:opacity .18s}
+.module-card:hover{transform:translateY(-3px);border-color:var(--accent-color,var(--glow-dim));box-shadow:0 10px 28px rgba(0,0,0,0.45)}
+.module-card:hover::before{opacity:1}
+.module-icon{width:38px;height:38px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;color:var(--accent-color,var(--glow))}
+.module-card h3{font-family:var(--display);font-size:18px;margin-bottom:9px;color:var(--bone)}
+.module-card p{font-size:13px;color:var(--bone-dim);line-height:1.55;margin-bottom:14px}
+.module-tag{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.04em;padding:4px 9px;border-radius:20px;display:inline-block;background:var(--void-2);color:var(--bone-dim);border:1px solid var(--line)}
+
+.icon{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ================================================================ CHARACTERS */
+
+.char-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.char-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;cursor:pointer;
+  transition:all .18s;position:relative;overflow:hidden;
+}
+.char-card::before{content:'';position:absolute;top:-40%;right:-40%;width:80%;height:80%;border-radius:50%;background:var(--cc,var(--glow));opacity:.08;filter:blur(30px);transition:opacity .2s}
+.char-card:hover{transform:translateY(-3px);border-color:var(--cc,var(--glow-dim));box-shadow:0 10px 26px rgba(0,0,0,0.4)}
+.char-card:hover::before{opacity:.22}
+.char-swatch{
+  width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-size:19px;margin-bottom:14px;background:var(--cc,var(--glow));color:var(--void);
+  position:relative;z-index:1;
+}
+.char-name{font-family:var(--display);font-size:16px;margin-bottom:4px;color:var(--bone);position:relative;z-index:1}
+.char-role{font-size:12px;color:var(--bone-dim);margin-bottom:10px;line-height:1.4;position:relative;z-index:1}
+.char-world-tag{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;padding:3px 8px;border-radius:20px;display:inline-block;background:var(--void-2);color:var(--cc,var(--glow));border:1px solid var(--line);position:relative;z-index:1}
+
+.char-detail{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:30px;position:relative;overflow:hidden}
+.char-detail-glow{position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:80%;height:60%;background:var(--cc,var(--glow));opacity:.08;filter:blur(60px);pointer-events:none}
+.char-detail-head{display:flex;align-items:flex-start;gap:20px;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--line);position:relative;z-index:1}
+.char-detail-swatch{width:72px;height:72px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:28px;background:var(--cc,var(--glow));color:var(--void)}
+.char-detail-meta h2{font-family:var(--display);font-size:27px;margin-bottom:6px;color:var(--bone)}
+.char-detail-meta .role-line{font-size:13.5px;color:var(--bone-dim)}
+.char-detail-meta .world-line{font-family:var(--mono);font-size:11px;text-transform:uppercase;margin-top:8px;color:var(--cc,var(--glow))}
+
+.tab-row{display:flex;gap:4px;margin-bottom:22px;border-bottom:1px solid var(--line);flex-wrap:wrap;position:relative;z-index:1}
+.tab-btn{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.04em;padding:10px 16px;border-bottom:2px solid transparent;color:var(--bone-dim);margin-bottom:-1px;transition:color .15s}
+.tab-btn.active{color:var(--bone);border-bottom-color:var(--cc,var(--glow))}
+.tab-pane{display:none;position:relative;z-index:1}
+.tab-pane.active{display:block;animation:fadein .25s ease}
+
+.power-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.power-pill{font-family:var(--mono);font-size:11px;text-transform:uppercase;padding:5px 12px;border-radius:20px;border:1px solid var(--line);color:var(--bone-dim)}
+.char-bio{font-size:15px;line-height:1.75;margin-bottom:18px;color:var(--bone)}
+.appears-label{font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--bone-dim);margin-bottom:10px}
+.appears-row{display:flex;gap:6px;flex-wrap:wrap}
+.appears-pill{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:20px;background:var(--void-2);border:1px solid var(--line);color:var(--bone-dim)}
+
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.media-tile{border:1px dashed var(--line);border-radius:10px;padding:22px 14px;text-align:center;font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--bone-dim)}
+.media-tile .icon{width:24px;height:24px;margin:0 auto 10px;opacity:.55}
+
+.unlock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.unlock-tile{border:1px solid var(--line);border-radius:10px;padding:16px 12px;text-align:center;font-family:var(--mono);font-size:11px;text-transform:uppercase;background:var(--void-2);color:var(--bone)}
+.unlock-tile.unlocked{border-color:var(--glow-dim);background:rgba(159,239,63,0.08);color:var(--glow)}
+.unlock-tile.locked{opacity:.55}
+.unlock-tile .icon{width:22px;height:22px;margin:0 auto 8px}
+.unlock-req{font-size:9px;opacity:.8;margin-top:5px;text-transform:none}
+
+.lore-text{font-size:15px;line-height:1.8;background:var(--void-2);padding:20px;border-radius:10px;border-left:3px solid var(--hazard);color:var(--bone)}
+
+/* ================================================================ QUARKZINE */
+
+.zine-covers{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+.zine-cover{cursor:pointer;transition:transform .15s}
+.zine-cover:hover{transform:translateY(-4px)}
+.zine-cover-art{
+  aspect-ratio:3/4;border-radius:12px;border:1px solid var(--line);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:14px;
+  margin-bottom:10px;position:relative;overflow:hidden;text-align:center;
+  background:radial-gradient(circle at 50% 20%, var(--zc,var(--glow)) 0%, var(--panel) 70%);
+}
+.zine-cover-art::after{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0 2px, transparent 2px 4px)}
+.zine-cover-icon{width:30px;height:30px;color:var(--void);position:relative;z-index:1;opacity:.85}
+.zine-cover-title{font-family:var(--display);font-size:17px;color:var(--void);position:relative;z-index:1;line-height:1.15}
+.zine-cover-num{font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--bone-dim)}
+
+.reader{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.reader-top{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:1px solid var(--line);flex-wrap:wrap;gap:12px;background:var(--void-2)}
+.reader-top-meta .r-num{font-family:var(--mono);font-size:11px;color:var(--bone-dim);text-transform:uppercase}
+.reader-top-meta .r-title{font-family:var(--display);font-size:20px;color:var(--bone)}
+.reader-nav{display:flex;align-items:center;gap:12px}
+.reader-page-lbl{font-family:var(--mono);font-size:12px;color:var(--bone-dim)}
+
+.reader-spread{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:680px){.reader-spread{grid-template-columns:1fr}}
+.reader-page{padding:28px;min-height:300px;position:relative}
+.reader-page:first-child{border-right:1px solid var(--line)}
+@media(max-width:680px){.reader-page:first-child{border-right:none;border-bottom:1px solid var(--line)}}
+.rp-head{font-family:var(--display);font-size:19px;margin-bottom:14px;color:var(--glow)}
+.rp-art{width:100%;height:78px;border:1px dashed var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;margin:12px 0;color:var(--line)}
+.rp-art .icon{width:24px;height:24px}
+.rp-body{font-size:14px;line-height:1.8;white-space:pre-line;color:var(--bone-dim)}
+.pg-num{position:absolute;bottom:16px;font-family:var(--mono);font-size:10px;color:var(--bone-dim);opacity:.6}
+.reader-page:first-child .pg-num{left:28px}
+.reader-page:last-child .pg-num{right:28px}
+
+.reader-bottom{padding:20px 24px;border-top:1px solid var(--line);background:var(--void-2)}
+.commentary-label{font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--hazard);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.commentary-label .icon{width:14px;height:14px}
+.commentary-text{font-size:15px;line-height:1.75;font-style:italic;color:var(--bone)}
+.charlink-row{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.charlink{font-family:var(--mono);font-size:11px;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid var(--line);cursor:pointer;background:var(--panel);transition:all .15s;color:var(--bone-dim)}
+.charlink:hover{border-color:var(--glow);color:var(--glow)}
+
+/* ================================================================ QUARKUNIVERSITY */
+
+.progress-panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px 26px;margin-bottom:28px;position:relative;overflow:hidden}
+.progress-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.progress-head .pname{font-family:var(--display);font-size:16px;color:var(--bone)}
+.progress-head .pxp{font-family:var(--mono);font-size:13px;color:var(--glow)}
+.progress-bar{height:12px;background:var(--void-2);border-radius:8px;margin-bottom:12px;overflow:hidden;border:1px solid var(--line)}
+.progress-fill{height:100%;background:linear-gradient(90deg, var(--glow-dim), var(--glow));transition:width .5s ease;box-shadow:0 0 12px rgba(159,239,63,0.5)}
+.rank-track{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--bone-dim);flex-wrap:wrap;gap:4px}
+.rank-track span.done{color:var(--glow)}
+
+.school-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-bottom:36px}
+.school-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+.school-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.school-head .icon{width:24px;height:24px;color:var(--glow)}
+.school-name{font-family:var(--display);font-size:16px;color:var(--bone)}
+.school-count{font-family:var(--mono);font-size:10px;color:var(--bone-dim);text-transform:uppercase}
+.lesson-row{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;margin-bottom:5px;border-radius:8px;border:1px solid transparent;font-size:13px;cursor:pointer;transition:all .15s;color:var(--bone)}
+.lesson-row:hover{border-color:var(--line);background:var(--void-2)}
+.lesson-row.done{opacity:.5}
+.lesson-row.done .lesson-name{text-decoration:line-through}
+.lesson-xp{font-family:var(--mono);font-size:11px;color:var(--glow)}
+.lesson-lock{font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--hazard);display:flex;align-items:center;gap:5px}
+.lesson-lock .icon{width:12px;height:12px}
+
+/* ================================================================ CHALLENGES */
+
+.challenge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.challenge-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px;display:flex;flex-direction:column;transition:all .18s}
+.challenge-card:hover{border-color:var(--line);transform:translateY(-2px)}
+.ch-status{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.ch-status.live{color:var(--glow)}
+.ch-status.live::before{content:'';width:7px;height:7px;background:var(--glow);border-radius:50%;box-shadow:0 0 8px var(--glow);animation:pulse 1.8s infinite}
+.ch-status.upcoming{color:var(--hazard)}
+.ch-title{font-family:var(--display);font-size:18px;margin-bottom:10px;color:var(--bone)}
+.ch-desc{font-size:13px;line-height:1.6;color:var(--bone-dim);margin-bottom:16px;flex:1}
+.ch-rewards{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.reward-pill{font-family:var(--mono);font-size:10px;text-transform:uppercase;padding:4px 10px;border-radius:20px;border:1px solid var(--line);color:var(--bone-dim)}
+
+/* ================================================================ CANVAS WARS */
+
+.event-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px;margin-bottom:18px;position:relative;overflow:hidden}
+.event-card.upcoming{border-color:rgba(255,107,26,0.4)}
+.event-status{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;position:relative;z-index:1}
+.event-status.done{color:var(--glow)}
+.event-status.upcoming{color:var(--hazard)}
+.event-title{font-family:var(--display);font-size:25px;margin-bottom:8px;color:var(--bone);position:relative;z-index:1}
+.event-meta{font-size:13px;color:var(--bone-dim);margin-bottom:20px;display:flex;align-items:center;gap:7px;position:relative;z-index:1}
+.event-meta .icon{width:14px;height:14px}
+.event-desc{font-size:14px;line-height:1.65;color:var(--bone-dim);margin-bottom:20px;position:relative;z-index:1}
+
+.lb-table{border:1px solid var(--line);border-radius:10px;overflow:hidden;position:relative;z-index:1}
+.lb-row{display:grid;grid-template-columns:44px 1fr auto auto;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line);font-size:13.5px}
+.lb-row:last-child{border-bottom:none}
+.lb-rank{font-family:var(--mono);text-align:center;color:var(--bone-dim)}
+.lb-rank.gold{color:var(--hazard);font-weight:700}
+.lb-badge{font-family:var(--mono);font-size:10px;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:rgba(159,239,63,0.15);color:var(--glow)}
+.lb-pts{font-family:var(--display);font-size:15px;color:var(--bone)}
+
+.sponsor-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;position:relative;z-index:1}
+.sponsor-tag{font-family:var(--mono);font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--line);color:var(--bone-dim)}
+
+/* ================================================================ MUSIC */
+
+.track-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.track-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .18s}
+.track-card:hover{transform:translateY(-3px);border-color:var(--line)}
+.track-art{aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative;background:radial-gradient(circle at 30% 30%, var(--tc,var(--glow)) 0%, var(--void-2) 75%)}
+.track-art .icon{width:32%;height:32%;opacity:.5;color:var(--void)}
+.track-play{position:absolute;width:42px;height:42px;border-radius:50%;background:var(--bone);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .18s;box-shadow:0 4px 16px rgba(0,0,0,0.4)}
+.track-card:hover .track-play{opacity:1}
+.track-play .icon{width:15px;height:15px;color:var(--void);stroke:var(--void);fill:var(--void)}
+.track-info{padding:14px 16px}
+.track-title{font-family:var(--display);font-size:14px;margin-bottom:4px;color:var(--bone)}
+.track-sub{font-family:var(--mono);font-size:10px;color:var(--bone-dim);text-transform:uppercase}
+.track-lore-tag{font-family:var(--mono);font-size:10px;text-transform:uppercase;margin-top:8px;padding:3px 9px;border-radius:20px;background:var(--void-2);color:var(--glow);display:inline-block;border:1px solid var(--line)}
+
+/* ================================================================ TOAST */
+
+#qf-toast{
+  position:fixed;bottom:24px;right:24px;z-index:9999;
+  background:var(--panel);color:var(--glow);font-family:var(--mono);font-size:12px;font-weight:700;
+  letter-spacing:0.04em;text-transform:uppercase;padding:14px 20px;border-radius:10px;
+  border:1px solid var(--glow-dim);box-shadow:0 8px 28px rgba(0,0,0,0.5), 0 0 20px rgba(159,239,63,0.15);
+  transition:opacity .25s, transform .25s;opacity:0;transform:translateY(10px);
+}
+
+/* ================================================================ FOOTER */
+
+.site-footer{background:var(--void-2);color:var(--bone-dim);padding:36px 20px;font-family:var(--mono);font-size:12px;border-top:1px solid var(--line);position:relative;z-index:1}
+.footer-inner{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-inner .glyph{color:var(--glow)}
+
+.empty-note{font-family:var(--mono);font-size:12px;opacity:.5;text-align:center;padding:30px}
+
+</style>
 </head>
 <body>
+
+<div class="grain"></div>
+<div class="vignette"></div>
 
 <a href="#main" class="skip-link">Skip to content</a>
 
@@ -19,8 +423,8 @@
   <header class="topnav">
     <div class="topnav-inner">
       <div class="brand">
-        <span class="brand-mark">⬡</span> QuarkForce
-        <span class="brand-sub">Universe Hub</span>
+        <div class="brand-mark">Q</div>
+        <div class="brand-text">Quark<span class="x">Force</span></div>
       </div>
       <nav class="navlinks" aria-label="Primary">
         <a href="#" class="navlink active" data-view="home">Home</a>
@@ -56,13 +460,14 @@
       <!-- HOME -->
       <section class="view active" id="view-home">
         <div class="hero">
-          <div class="hero-kicker">QuarkForce · Medford, Oregon</div>
+          <div class="hero-static"></div>
+          <div class="hero-kicker"><span class="dot"></span>Now broadcasting from Medford, Oregon</div>
           <h1>Where creativity<br>becomes an <span class="accent">adventure.</span></h1>
           <p>Art. Education. Music. Community. Events. IP. One living universe built by JawsAtak47 — enter through any door.</p>
           <div class="hero-actions">
-            <button class="btn accent" data-go="characters">Explore the roster</button>
+            <button class="btn primary" data-go="characters">Explore the roster</button>
             <button class="btn" data-go="zines">Read QuarkZine</button>
-            <button class="btn" data-go="challenges">Join a challenge</button>
+            <button class="btn hazard" data-go="challenges">Join a challenge</button>
           </div>
         </div>
 
@@ -92,44 +497,44 @@
         <div class="stat-strip">
           <div class="stat-cell"><div class="stat-num">9</div><div class="stat-label">Characters</div></div>
           <div class="stat-cell"><div class="stat-num">6+</div><div class="stat-label">Zine issues</div></div>
-          <div class="stat-cell"><div class="stat-num">160</div><div class="stat-label">QU classes</div></div>
+          <div class="stat-cell"><div class="stat-num">28</div><div class="stat-label">QU classes</div></div>
           <div class="stat-cell"><div class="stat-num">2</div><div class="stat-label">Worlds</div></div>
           <div class="stat-cell"><div class="stat-num">$500</div><div class="stat-label">Prize pool</div></div>
         </div>
 
         <div class="shelf-title">Explore the universe</div>
         <div class="module-grid">
-          <div class="module-card" data-go="characters">
+          <div class="module-card" data-go="characters" style="--accent-color:#9fef3f">
             <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg></div>
             <h3>Characters</h3>
             <p>Full bios, origins, powers, and unlockable content for every QuarkForce character.</p>
             <span class="module-tag">9 in roster</span>
           </div>
-          <div class="module-card" data-go="zines">
-            <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+          <div class="module-card" data-go="zines" style="--accent-color:#ff6b1a">
+            <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
             <h3>QuarkZine</h3>
             <p>Digital reader with creator commentary, character links, and the full archive.</p>
             <span class="module-tag">6 issues archived</span>
           </div>
-          <div class="module-card" data-go="university">
+          <div class="module-card" data-go="university" style="--accent-color:#9b6fd6">
             <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3 2 8l10 5 10-5-10-5zM2 14l10 5 10-5M2 8v8M22 8v8"/></svg></div>
             <h3>QuarkUniversity</h3>
             <p>Graffiti, letters, sign painting, character design, and business for artists.</p>
             <span class="module-tag">Free + premium</span>
           </div>
-          <div class="module-card" data-go="challenges">
+          <div class="module-card" data-go="challenges" style="--accent-color:#d4263f">
             <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
             <h3>Challenges</h3>
             <p>Weekly missions. Earn XP, badges, and a shot at featured placement.</p>
             <span class="module-tag">3 live now</span>
           </div>
-          <div class="module-card" data-go="canvaswars">
+          <div class="module-card" data-go="canvaswars" style="--accent-color:#ff6b1a">
             <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM7 6H4a2 2 0 0 0 2 4M17 6h3a2 2 0 0 1-2 4"/></svg></div>
             <h3>Canvas Wars</h3>
             <p>Events, results, sponsor galleries, and the MonsTober art show.</p>
             <span class="module-tag">Year 2 coming</span>
           </div>
-          <div class="module-card" data-go="music">
+          <div class="module-card" data-go="music" style="--accent-color:#9fef3f">
             <div class="module-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM21 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg></div>
             <h3>Music division</h3>
             <p>The JawsAtak47 discography — every track is canon, every beat maps to the lore.</p>
@@ -152,8 +557,9 @@
         </div>
 
         <div id="chars-detail" style="display:none">
-          <button class="btn sm" id="char-back" style="margin-bottom:18px">&larr; Back to roster</button>
+          <button class="btn sm" id="char-back" style="margin-bottom:20px">&larr; Back to roster</button>
           <div class="char-detail">
+            <div class="char-detail-glow" id="cd-glow"></div>
             <div class="char-detail-head">
               <div class="char-detail-swatch" id="cd-swatch"></div>
               <div class="char-detail-meta">
@@ -179,14 +585,14 @@
 
             <div class="tab-pane" id="tab-media">
               <div class="media-grid">
-                <div class="media-tile"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Comics</div>
+                <div class="media-tile"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Comics</div>
                 <div class="media-tile"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9v6l6-3z"/></svg>Audio log</div>
-                <div class="media-tile"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="5" width="14" height="14"/><path d="M17 9l4-3v12l-4-3"/></svg>Clips</div>
+                <div class="media-tile"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="5" width="14" height="14" rx="1"/><path d="M17 9l4-3v12l-4-3"/></svg>Clips</div>
               </div>
             </div>
 
             <div class="tab-pane" id="tab-unlockables">
-              <p style="font-size:13px;color:var(--ink-soft);margin-bottom:14px">Earn XP across the hub to unlock bonus content for this character.</p>
+              <p style="font-size:13px;color:var(--bone-dim);margin-bottom:16px">Earn XP across the hub to unlock bonus content for this character.</p>
               <div class="unlock-grid" id="cd-unlocks"></div>
             </div>
 
@@ -212,7 +618,7 @@
         </div>
 
         <div id="zine-reader" style="display:none">
-          <button class="btn sm" id="zine-back" style="margin-bottom:18px">&larr; Back to archive</button>
+          <button class="btn sm" id="zine-back" style="margin-bottom:20px">&larr; Back to archive</button>
           <div class="reader">
             <div class="reader-top">
               <div class="reader-top-meta">
@@ -245,9 +651,9 @@
       <section class="view" id="view-university">
         <div class="page-head">
           <div>
-            <div class="page-kicker">10 schools · 160 classes</div>
+            <div class="page-kicker">6 schools live · 28 classes</div>
             <h1>QuarkUniversity</h1>
-            <p>Graffiti, lettering, sign painting, character design, and business — for artists who want both craft and income. Six schools live now, with more rolling out.</p>
+            <p>Graffiti, lettering, sign painting, character design, and business — for artists who want both craft and income.</p>
           </div>
           <button class="btn primary">QuarkUniversity+ — $20/mo</button>
         </div>
@@ -312,14 +718,520 @@
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <span>QuarkForce Universe Hub — built by JawsAtak47 · Medford, OR</span>
+      <span><span class="glyph">⬡</span> QuarkForce Universe Hub — built by JawsAtak47 · Medford, OR</span>
       <span>Static site · No backend required</span>
     </div>
   </footer>
 
 </div>
 
-<script src="assets/data/universe.js"></script>
-<script src="assets/js/app.js"></script>
+<script>
+/* ================================================================
+   DATA
+   ================================================================ */
+
+const QF_CHARACTERS = [
+  { id:"blackpacalyps", name:"BlackPacalyps", role:"Protagonist · Force of reckoning", world:"Monster Island", color:"#9fef3f",
+    powers:["Apocalyptic energy","Urban warfare","Cultural memory"],
+    bio:"The central force of the QuarkForce universe. BlackPacalyps channels the raw energy of the streets, carrying the weight of culture and survival into every conflict on Monster Island.",
+    lore:"Before BlackPacalyps had a name, he had a silhouette — drawn in the margins of notebooks for two decades before the world around him caught up. He doesn't choose fights; he arrives where the pressure is already highest, because that's where the culture needs a witness most. What he protects isn't territory. It's memory — the specific, unglamorous memory of where this all came from.",
+    appears:["Issue 01","Issue 02","Issue 04"] },
+  { id:"tinysquatchman", name:"TinySquatchMan", role:"Scout · Underestimated wildcard", world:"Monster Island", color:"#5c9c1f",
+    powers:["Stealth","Terrain mastery","Cryptid speed"],
+    bio:"Small in stature, massive in impact. TinySquatchMan moves through Monster Island like a ghost — gathering intel and striking when least expected.",
+    lore:"Everyone assumes the smallest creature on the island is the least dangerous. That assumption is the only weapon TinySquatchMan has ever needed. He remembers every alley, every shortcut, every place the bigger characters forgot to look — because nobody ever taught him a route was supposed to be obvious.",
+    appears:["Issue 01","Issue 04"] },
+  { id:"leptonmu", name:"Lepton Mu", role:"Quantum entity · Knowledge keeper", world:"Neon Waterplant", color:"#9b6fd6",
+    powers:["Quantum phase","Dimensional sight","Memory absorption"],
+    bio:"Born from the particle overflow of Neon Waterplant, Lepton Mu exists in multiple states simultaneously — part archivist, part weapon.",
+    lore:"Lepton Mu doesn't experience time the way the rest of the universe does — every version of every decision is still happening somewhere in its field of awareness. That makes it the only entity capable of holding the full archive of Neon Waterplant without going mad. The cost: it can never fully arrive in just one moment, with anyone.",
+    appears:["Issue 03","Issue 04"] },
+  { id:"cockroachlady", name:"Cockroach Lady", role:"Survivor · Street strategist", world:"Monster Island", color:"#ff6b1a",
+    powers:["Unkillable resilience","Adaptation","Network intelligence"],
+    bio:"The ultimate survivor. Cockroach Lady has outlasted every system designed to erase her, building intelligence networks through Monster Island's underbelly.",
+    lore:"Three generations of so-called heroes have come and gone on Monster Island. Cockroach Lady is the only constant — not because she's the strongest, but because she never stopped paying attention to who actually holds power versus who claims to. Her network knows things even BlackPacalyps doesn't.",
+    appears:["Issue 02","Issue 04"] },
+  { id:"xiangba", name:"Xiangba", role:"Ancient guardian · Duality entity", world:"Monster Island", color:"#d4a23f",
+    powers:["Ancient force","Duality shift","Cultural bridge"],
+    bio:"An ancient entity whose power predates the current age of Monster Island. Xiangba embodies duality — protection and destruction as the same force.",
+    lore:"Xiangba was old when Monster Island was still forming its first coastline. It has watched empires of mark-making rise and erase each other, and it no longer pretends that protection and destruction are different jobs. Sometimes the kindest thing Xiangba can do is take something apart before it calcifies.",
+    appears:["Issue 04","Issue 06"] },
+  { id:"bugaboo", name:"Bugaboo", role:"Chaos agent · Unpredictable wildcard", world:"Neon Waterplant", color:"#d4263f",
+    powers:["Chaotic energy","Reality distortion","Swarm command"],
+    bio:"No one fully understands Bugaboo's allegiance. Operating from Neon Waterplant, Bugaboo introduces chaos as a creative force — disruption as art.",
+    lore:"Ask five characters whose side Bugaboo is on and you'll get five different answers, all partially correct. Bugaboo treats allegiance as a creative constraint rather than a fact — loyal to whatever makes the story more interesting today. It's the only character that finds the idea of a finished universe boring.",
+    appears:["Issue 03","Issue 04"] },
+  { id:"marvelouswonderful", name:"Marvelous Wonderful", role:"Chief Narrator · Trickster guide", world:"Both worlds", color:"#9fef3f",
+    powers:["Narrative control","Fourth-wall access","Reality editing"],
+    bio:"The Bugs Bunny of the QuarkForce universe. Marvelous Wonderful narrates the story from inside it — breaking rules that don't serve the world.",
+    lore:"Marvelous Wonderful knows it's being read. That's not a glitch in the universe — it's the point. Every rule it breaks is one that stopped serving the story, and every aside to the audience is an invitation to keep paying attention, because the next page is about to matter.",
+    appears:["Issue 01","Issue 02","Issue 03","Issue 04","Issue 05","Issue 06"] },
+  { id:"ducttapeman", name:"Duct TapeMan", role:"Builder · Improvised hero", world:"Monster Island", color:"#a8a596",
+    powers:["Structural mastery","Rapid improvisation","Binding force"],
+    bio:"Duct TapeMan holds things together when everything falls apart. Equal parts engineer and warrior, built from whatever the streets left behind.",
+    lore:"Nobody commissioned Duct TapeMan. He assembled himself from whatever Monster Island discarded — scrap metal, broken signage, the literal tape that gives him his name. He's proof that you don't need permission to become structurally necessary; you just need to show up every time something's about to collapse.",
+    appears:["Issue 04"] },
+  { id:"infiniteinfant", name:"Infinite Infant", role:"Origin force · Pure potential", world:"Neon Waterplant", color:"#5c9c1f",
+    powers:["Unlimited potential","Reality seeding","Origin energy"],
+    bio:"The Infinite Infant represents pure beginning — a force of creation so powerful its existence reshapes the physics of Neon Waterplant.",
+    lore:"The Infinite Infant has never finished a single sentence and never will, because finishing would mean choosing one version of the universe over all the others still waiting to be born. Every other character in Neon Waterplant owes some part of their existence to a moment the Infant almost said something — and didn't.",
+    appears:["Issue 03","Issue 04"] },
+];
+
+const QF_ZINES = [
+  { id:"issue-01", num:"Issue 01", title:"Origins", color:"#9fef3f", chars:["blackpacalyps","tinysquatchman","marvelouswonderful"],
+    spreads:[
+      { left:{head:"Welcome to Monster Island", body:"The first transmission from the QuarkForce universe. This issue introduces the terrain, the rules, and the entities that define what it means to exist here.\n\nBlackPacalyps emerges from static. TinySquatchMan maps the perimeter."},
+        right:{head:"Character zero", body:"Before the roster had names, there was a mark. A tag. A signal in the noise.\n\nThis is where QuarkForce began — not with a plan, but with a compulsion to make something real from nothing."},
+        commentary:"The first issue was never supposed to be a manifesto — it just became one. Every zine I've made since has this one's DNA in it." },
+      { left:{head:"The grid", body:"Monster Island operates on invisible geometry. Every territory, every alley, every contested wall follows a logic that outsiders can't read."},
+        right:{head:"Dispatch from the underground", body:"JawsAtak47 writes from the studio:\n\n\"I've been building this world for 20 years without knowing it. Every tag, every character sketch, every beat was a page in this zine.\""},
+        commentary:"The grid page was drawn on the back of a receipt. Some of the best layouts start that way — constraint forces clarity." }
+    ]},
+  { id:"issue-02", num:"Issue 02", title:"Monster Island", color:"#ff6b1a", chars:["cockroachlady","blackpacalyps","marvelouswonderful"],
+    spreads:[
+      { left:{head:"Terrain report", body:"Monster Island is not a metaphor. It is a living system — part city, part wilderness, part memory.\n\nThe territory shifts with the population's belief. When enough entities believe a wall exists, it does."},
+        right:{head:"Cockroach Lady speaks", body:"\"I've been here since before the current age. I've watched three generations of heroes get erased.\n\nSurvival isn't passive. It's the most radical act of resistance.\""},
+        commentary:"Cockroach Lady's dialogue in this spread came out in one sitting. I didn't edit it. Some characters just know what they want to say." }
+    ]},
+  { id:"issue-03", num:"Issue 03", title:"Neon Waterplant", color:"#9b6fd6", chars:["leptonmu","bugaboo","infiniteinfant"],
+    spreads:[
+      { left:{head:"The second world", body:"Neon Waterplant runs parallel to Monster Island — a bioluminescent environment where the physics of creativity operate differently.\n\nLepton Mu was born here. Bugaboo feeds here."},
+        right:{head:"Signal and noise", body:"In Neon Waterplant, every sound is information. The ambient hum carries encoded messages from Lepton Mu to entities who know how to listen."},
+        commentary:"Building a second world forced me to think about what Monster Island actually was. Contrast is how you understand both." }
+    ]},
+  { id:"issue-04", num:"Issue 04", title:"The Roster", color:"#5c9c1f", chars:["blackpacalyps","tinysquatchman","leptonmu","cockroachlady","xiangba","bugaboo"],
+    spreads:[
+      { left:{head:"Full roster drop", body:"Issue 04 is the definitive character compendium. Every entity, every power, every origin story compressed into a single zine.\n\nThe IP universe goes fully public."},
+        right:{head:"Powers and hierarchies", body:"No single character controls the QuarkForce universe. The power balance shifts with narrative gravity — who needs to be right, right now, is who holds the most power."},
+        commentary:"This issue was the hardest to write and the easiest to design. When you've been living with characters for 20 years, describing them is actually the challenge." }
+    ]},
+  { id:"issue-05", num:"Issue 05", title:"Canvas Wars", color:"#d4a23f", chars:["marvelouswonderful"],
+    spreads:[
+      { left:{head:"Art as combat", body:"Canvas Wars is not competition for its own sake. It is a structured ritual for proving what art can do under pressure, in public, with stakes.\n\nYear 1 happened. Miles won. The next round is already forming."},
+        right:{head:"From the event floor", body:"Sponsor row. Snow cones. Gold leaf trophies hand-crafted for the occasion.\n\nThis is what a community art event looks like when the organizer actually cares about every detail."},
+        commentary:"I built those trophies myself. Gold leaf, epoxy, wood. Nobody asked me to go that hard. That's the only way I know how to do it." }
+    ]},
+  { id:"issue-06", num:"Issue 06", title:"Sound & Vision", color:"#d4263f", chars:["blackpacalyps","xiangba"],
+    spreads:[
+      { left:{head:"Music as lore", body:"The JawsAtak47 discography is not background music to the QuarkForce universe.\n\nIt is the universe. Every track maps to a location, a character, an event."},
+        right:{head:"Production notes", body:"Bay Area influence meets Pacific Northwest production. Mac Dre's spirit is in the 808. Mistah FAB's energy is in the delivery. Detroit precision keeps it structural."},
+        commentary:"Issue 06 was the hardest to pitch to people. \"What does sound look like?\" Turns out it looks like this — like the universe breathing." }
+    ]}
+];
+
+const QF_SCHOOLS = [
+  { name:"School of Marks", icon:"mark", courses:[
+    {name:"Freeform mark-making",xp:50,free:true},{name:"Tags to throwies",xp:75,free:true},{name:"Bubble letters",xp:100,free:true},
+    {name:"Wildstyle fundamentals",xp:150,free:false},{name:"Character bombs",xp:200,free:false}]},
+  { name:"School of Letters", icon:"letter", courses:[
+    {name:"Block letters",xp:75,free:true},{name:"Sign painting basics",xp:100,free:true},{name:"3D letter construction",xp:125,free:false},
+    {name:"Gold leaf technique",xp:175,free:false},{name:"Vintage signage styles",xp:200,free:false}]},
+  { name:"School of Characters", icon:"character", courses:[
+    {name:"Character design basics",xp:100,free:true},{name:"IP development",xp:150,free:false},{name:"Power systems",xp:150,free:false},
+    {name:"World-building",xp:200,free:false},{name:"Character bibles",xp:250,free:false}]},
+  { name:"School of Color", icon:"color", courses:[
+    {name:"Color theory for murals",xp:75,free:true},{name:"Spray paint control",xp:100,free:true},{name:"Blending techniques",xp:125,free:false},
+    {name:"Palette building",xp:150,free:false}]},
+  { name:"School of Business", icon:"business", courses:[
+    {name:"Pricing your work",xp:100,free:true},{name:"Commission intake",xp:100,free:true},{name:"Email marketing",xp:125,free:false},
+    {name:"Social media strategy",xp:150,free:false},{name:"Grant writing",xp:200,free:false}]},
+  { name:"School of Story", icon:"story", courses:[
+    {name:"Zine production",xp:100,free:true},{name:"Comic panel structure",xp:125,free:false},{name:"World lore writing",xp:150,free:false},
+    {name:"Character arcs",xp:175,free:false}]}
+];
+
+const QF_CHALLENGES = [
+  { status:"live", title:"MonsTober mascot contest", desc:"Design an original monster or creature character. Could become the official MonsTober mascot — community vote decides.", xp:200, rewards:["200 XP","Featured placement","Mascot badge"] },
+  { status:"live", title:"Throwie mission", desc:"Transform a simple tag into a full throwie. Document your process — sketch, practice runs, final piece.", xp:150, rewards:["150 XP","Graffiti badge","QU credit"] },
+  { status:"live", title:"Character remix", desc:"Take any QuarkForce character and reimagine them in a new environment or time period. Your interpretation, your style.", xp:175, rewards:["175 XP","Collab badge","Character feature"] },
+  { status:"upcoming", title:"TinySquatch challenge", desc:"Draw TinySquatchMan doing something completely unexpected. The more absurd the scenario, the better.", xp:125, rewards:["125 XP","Scout badge"] },
+  { status:"upcoming", title:"Monster Island map", desc:"Create your own map of Monster Island. Add new territories, landmark locations, or contested zones.", xp:200, rewards:["200 XP","Cartographer badge","Lore archive feature"] }
+];
+
+const QF_EVENTS = [
+  { status:"done", label:"Completed · Year 1", title:"Canvas Wars Year 1", meta:"Bear Creek Park · Timeless Treasures Hub · June 6",
+    leaderboard:[{rank:1,name:"Miles",badge:"Champion",pts:"8 pts"},{rank:2,name:"Runner-up",badge:"",pts:"—"},{rank:3,name:"Third place",badge:"",pts:"—"}],
+    sponsors:["LifeArt","Oh's Osaka","Timeless Treasures","Central Art","Blick","Rosemary & Co","PPG"] },
+  { status:"upcoming", label:"Upcoming · October", title:"Canvas Wars: MonsTober", meta:"Multi-venue crawl · Medford, OR · All ages",
+    description:"Month-long monster/creature art show · ~$500 prize pool · Community mascot vote · Timeless Treasures as hub", sponsors:[] }
+];
+
+const QF_TRACKS = [
+  { title:"Monster Island theme", lore:"Main title", color:"#9fef3f" },
+  { title:"Cockroach protocol", lore:"Survival anthem", color:"#ff6b1a" },
+  { title:"Neon frequency", lore:"Waterplant signal", color:"#9b6fd6" },
+  { title:"Gold leaf dreams", lore:"Sign painter tribute", color:"#d4a23f" },
+  { title:"Bay to Rogue", lore:"Migration track", color:"#5c9c1f" },
+  { title:"Canvas Wars anthem", lore:"Event soundtrack", color:"#d4263f" }
+];
+
+const QF_RANKS = [
+  { name:"Observer", min:0 }, { name:"Explorer", min:200 }, { name:"Creator", min:500 },
+  { name:"Builder", min:900 }, { name:"QuarkMaster", min:1500 }
+];
+
+/* ================================================================
+   APP LOGIC
+   ================================================================ */
+
+(function(){
+"use strict";
+
+const STORAGE_KEY = "qf_hub_state_v2";
+let state = loadState();
+
+function loadState(){
+  try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) return JSON.parse(raw); }
+  catch(e){}
+  return { xp:0, completedLessons:[], joinedChallenges:[] };
+}
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+const ICONS = {
+  mark:'<svg class="icon" viewBox="0 0 24 24"><path d="M4 20 16 8M14 4l6 6-3 3-6-6z"/></svg>',
+  letter:'<svg class="icon" viewBox="0 0 24 24"><path d="M5 20V4h7a4 4 0 0 1 0 8H5M5 12h8a4 4 0 0 1 0 8H5"/></svg>',
+  character:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg>',
+  color:'<svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1-1-2 1-1 2-1h2a4 4 0 0 0 4-4 9 9 0 0 0-9-9z"/></svg>',
+  business:'<svg class="icon" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="12" rx="1"/><path d="M8 8V5h8v3"/></svg>',
+  story:'<svg class="icon" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+  lock:'<svg class="icon" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+  play:'<svg class="icon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M7 5v14l12-7z"/></svg>',
+  music:'<svg class="icon" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM21 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>',
+  photo:'<svg class="icon" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-4 4-3-3-6 6"/></svg>',
+  pin:'<svg class="icon" viewBox="0 0 24 24"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>',
+  sketch:'<svg class="icon" viewBox="0 0 24 24"><path d="M4 20 16 8M14 4l6 6-3 3-6-6z"/></svg>',
+  notes:'<svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16v12H8l-4 4z"/></svg>',
+  check:'<svg class="icon" viewBox="0 0 24 24"><path d="M5 12l5 5L20 6"/></svg>',
+};
+function iconHTML(name){ return ICONS[name] || ""; }
+
+const charById = {};
+QF_CHARACTERS.forEach(c=>{ charById[c.id]=c; });
+function initials(name){ return name.split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase(); }
+function escapeHTML(str){ const d=document.createElement("div"); d.textContent=str; return d.innerHTML; }
+
+/* ---------- nav ---------- */
+const views = document.querySelectorAll(".view");
+const navlinks = document.querySelectorAll(".navlink");
+
+function goView(id){
+  views.forEach(v=>v.classList.remove("active"));
+  const t = document.getElementById("view-"+id);
+  if(t) t.classList.add("active");
+  navlinks.forEach(l=>l.classList.toggle("active", l.dataset.view===id));
+  document.getElementById("mobilenav").classList.remove("open");
+  document.getElementById("navtoggle").setAttribute("aria-expanded","false");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+navlinks.forEach(l=>l.addEventListener("click",e=>{e.preventDefault();goView(l.dataset.view);}));
+document.querySelectorAll("[data-go]").forEach(el=>el.addEventListener("click",()=>goView(el.dataset.go)));
+document.getElementById("navtoggle").addEventListener("click",()=>{
+  const nav=document.getElementById("mobilenav");
+  const open=nav.classList.toggle("open");
+  document.getElementById("navtoggle").setAttribute("aria-expanded",String(open));
+});
+
+/* ---------- XP / rank ---------- */
+function currentRank(xp){ let r=QF_RANKS[0]; for(const x of QF_RANKS) if(xp>=x.min) r=x; return r; }
+function nextRank(xp){ return QF_RANKS.find(r=>r.min>xp) || null; }
+
+function renderXP(){
+  document.getElementById("xp-display").textContent = state.xp;
+  const rank = currentRank(state.xp);
+  document.getElementById("rank-chip").textContent = rank.name;
+  const quXp = document.getElementById("qu-xp"); if(quXp) quXp.textContent = state.xp;
+  const bar = document.getElementById("qu-bar");
+  if(bar){
+    const next = nextRank(state.xp);
+    const pct = next ? Math.round((state.xp-rank.min)/(next.min-rank.min)*100) : 100;
+    bar.style.width = pct+"%";
+  }
+  QF_RANKS.forEach((r,i)=>{
+    const el = document.getElementById("rs-"+i);
+    if(el) el.classList.toggle("done", state.xp>=r.min);
+  });
+}
+
+let toastTimer=null;
+function showToast(msg){
+  let t = document.getElementById("qf-toast");
+  if(!t){ t=document.createElement("div"); t.id="qf-toast"; document.body.appendChild(t); }
+  t.textContent = msg;
+  requestAnimationFrame(()=>{ t.style.opacity="1"; t.style.transform="translateY(0)"; });
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ t.style.opacity="0"; t.style.transform="translateY(10px)"; }, 2200);
+}
+
+function addXP(amount, toastMsg){
+  state.xp += amount;
+  saveState();
+  renderXP();
+  if(toastMsg) showToast("+"+amount+" XP — "+toastMsg);
+}
+
+/* ---------- characters ---------- */
+const charGrid = document.getElementById("char-grid");
+const charsList = document.getElementById("chars-list");
+const charsDetail = document.getElementById("chars-detail");
+
+function renderCharGrid(){
+  charGrid.innerHTML = QF_CHARACTERS.map(c=>`
+    <div class="char-card" data-char="${c.id}" style="--cc:${c.color}">
+      <div class="char-swatch">${initials(c.name)}</div>
+      <div class="char-name">${c.name}</div>
+      <div class="char-role">${c.role}</div>
+      <div class="char-world-tag">${c.world}</div>
+    </div>`).join("");
+  charGrid.querySelectorAll("[data-char]").forEach(el=>el.addEventListener("click",()=>openCharDetail(el.dataset.char)));
+}
+
+function openCharDetail(id){
+  const c = charById[id]; if(!c) return;
+  charsList.style.display="none";
+  charsDetail.style.display="block";
+
+  document.querySelector(".char-detail").style.setProperty("--cc", c.color);
+  document.getElementById("cd-swatch").textContent = initials(c.name);
+  document.getElementById("cd-name").textContent = c.name;
+  document.getElementById("cd-role").textContent = c.role;
+  document.getElementById("cd-world").textContent = "World: "+c.world;
+  document.getElementById("cd-powers").innerHTML = c.powers.map(p=>`<span class="power-pill">${p}</span>`).join("");
+  document.getElementById("cd-bio").textContent = c.bio;
+  document.getElementById("cd-appears").innerHTML = c.appears.map(a=>`<span class="appears-pill">${a}</span>`).join("");
+  document.getElementById("cd-lore").textContent = c.lore;
+
+  const unlocks = [
+    {icon:"photo",label:"Wallpaper",req:100},
+    {icon:"sketch",label:"Process sketches",req:200},
+    {icon:"music",label:"Audio log",req:350},
+    {icon:"notes",label:"Creator notes",req:500},
+  ];
+  document.getElementById("cd-unlocks").innerHTML = unlocks.map(u=>{
+    const unlocked = state.xp >= u.req;
+    return `<div class="unlock-tile ${unlocked?"unlocked":"locked"}">
+      ${iconHTML(unlocked?"check":"lock")}
+      ${u.label}
+      ${unlocked?"":`<div class="unlock-req">Needs ${u.req} XP</div>`}
+    </div>`;
+  }).join("");
+
+  resetTabs();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function resetTabs(){
+  document.querySelectorAll(".tab-btn").forEach((t,i)=>t.classList.toggle("active",i===0));
+  document.querySelectorAll(".tab-pane").forEach((p,i)=>p.classList.toggle("active",i===0));
+}
+
+document.getElementById("char-back").addEventListener("click",()=>{
+  charsDetail.style.display="none"; charsList.style.display="block";
+});
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".tab-btn").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".tab-pane").forEach(p=>p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-"+btn.dataset.tab).classList.add("active");
+  });
+});
+function goToCharacter(id){ goView("characters"); setTimeout(()=>openCharDetail(id),60); }
+
+/* ---------- zine ---------- */
+const zineLibrary = document.getElementById("zine-library");
+const zineReaderEl = document.getElementById("zine-reader");
+let currentZineIdx=null, currentSpreadIdx=0;
+
+function renderZineCovers(){
+  const grid = document.getElementById("zine-covers");
+  grid.innerHTML = QF_ZINES.map((z,i)=>`
+    <div class="zine-cover" data-zine="${i}">
+      <div class="zine-cover-art" style="--zc:${z.color}">
+        ${iconHTML("story").replace('class="icon"','class="icon zine-cover-icon"')}
+        <div class="zine-cover-title">${z.title}</div>
+      </div>
+      <div class="zine-cover-num">${z.num}</div>
+    </div>`).join("");
+  grid.querySelectorAll("[data-zine]").forEach(el=>el.addEventListener("click",()=>openZine(parseInt(el.dataset.zine,10))));
+}
+
+function openZine(idx){
+  currentZineIdx=idx; currentSpreadIdx=0;
+  zineLibrary.style.display="none";
+  zineReaderEl.style.display="block";
+  renderSpread();
+  const key="zine-open-"+QF_ZINES[idx].id;
+  if(!state.completedLessons.includes(key)){
+    state.completedLessons.push(key);
+    addXP(30,"Opened "+QF_ZINES[idx].num);
+  }
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderSpread(){
+  const zine = QF_ZINES[currentZineIdx];
+  const spread = zine.spreads[currentSpreadIdx];
+  const pageStart = currentSpreadIdx*2+1;
+
+  document.getElementById("r-num").textContent = zine.num;
+  document.getElementById("r-title").textContent = zine.title;
+  document.getElementById("r-pg-lbl").textContent = "Spread "+(currentSpreadIdx+1)+" of "+zine.spreads.length;
+
+  document.getElementById("r-left").innerHTML = `
+    <div class="rp-head">${spread.left.head}</div>
+    <div class="rp-art">${iconHTML("photo")}</div>
+    <div class="rp-body">${escapeHTML(spread.left.body)}</div>
+    <span class="pg-num">${pageStart}</span>`;
+  document.getElementById("r-right").innerHTML = `
+    <div class="rp-head">${spread.right.head}</div>
+    <div class="rp-art">${iconHTML("photo")}</div>
+    <div class="rp-body">${escapeHTML(spread.right.body)}</div>
+    <span class="pg-num">${pageStart+1}</span>`;
+
+  document.getElementById("r-commentary").textContent = "\u201C"+spread.commentary+"\u201D \u2014 JawsAtak47";
+  document.getElementById("r-charlinks").innerHTML = zine.chars.map(cid=>{
+    const c=charById[cid]; return c?`<span class="charlink" data-char="${cid}">${c.name}</span>`:"";
+  }).join("");
+  document.querySelectorAll("#r-charlinks [data-char]").forEach(el=>el.addEventListener("click",()=>goToCharacter(el.dataset.char)));
+
+  document.getElementById("reader-prev").disabled = currentSpreadIdx===0;
+  document.getElementById("reader-next").disabled = currentSpreadIdx===zine.spreads.length-1;
+}
+
+document.getElementById("reader-prev").addEventListener("click",()=>{ if(currentSpreadIdx>0){currentSpreadIdx--;renderSpread();} });
+document.getElementById("reader-next").addEventListener("click",()=>{
+  const z=QF_ZINES[currentZineIdx];
+  if(currentSpreadIdx<z.spreads.length-1){currentSpreadIdx++;renderSpread();}
+});
+document.getElementById("zine-back").addEventListener("click",()=>{
+  zineReaderEl.style.display="none"; zineLibrary.style.display="block";
+});
+
+/* ---------- QU ---------- */
+function renderSchools(){
+  const grid = document.getElementById("school-grid");
+  grid.innerHTML = QF_SCHOOLS.map((school,sIdx)=>{
+    const lessons = school.courses.map((course,cIdx)=>{
+      const key = sIdx+"-"+cIdx;
+      const done = state.completedLessons.includes(key);
+      if(course.free){
+        return `<div class="lesson-row${done?" done":""}" data-lesson="${key}" data-xp="${course.xp}">
+          <span class="lesson-name">${course.name}</span>
+          <span class="lesson-xp">${done?"Done":"+"+course.xp+" XP"}</span>
+        </div>`;
+      }
+      return `<div class="lesson-row" data-premium="1">
+        <span>${course.name}</span>
+        <span class="lesson-lock">${iconHTML("lock")} QU+</span>
+      </div>`;
+    }).join("");
+    return `<div class="school-card">
+      <div class="school-head">${iconHTML(school.icon)}<div><div class="school-name">${school.name}</div><div class="school-count">${school.courses.length} courses</div></div></div>
+      ${lessons}
+    </div>`;
+  }).join("");
+
+  grid.querySelectorAll("[data-lesson]").forEach(el=>el.addEventListener("click",()=>completeLesson(el.dataset.lesson, parseInt(el.dataset.xp,10))));
+  grid.querySelectorAll("[data-premium]").forEach(el=>el.addEventListener("click",()=>showToast("QuarkUniversity+ unlocks this course")));
+}
+
+function completeLesson(key,xpAmount){
+  if(state.completedLessons.includes(key)){ showToast("Already completed"); return; }
+  state.completedLessons.push(key);
+  addXP(xpAmount,"Lesson complete");
+  renderSchools();
+}
+
+/* ---------- challenges ---------- */
+function renderChallenges(){
+  const grid = document.getElementById("challenge-grid");
+  grid.innerHTML = QF_CHALLENGES.map((c,idx)=>{
+    const joined = state.joinedChallenges.includes(idx);
+    const rewards = c.rewards.map(r=>`<span class="reward-pill">${r}</span>`).join("");
+    const actionBtn = c.status==="live"
+      ? `<button class="btn ${joined?"":"primary"} sm" data-challenge="${idx}" data-xp="${c.xp}" ${joined?"disabled":""}>${joined?"Joined":"Join — +"+c.xp+" XP"}</button>`
+      : `<div class="empty-note" style="text-align:left;padding:0;font-size:11px">Opening soon</div>`;
+    return `<div class="challenge-card">
+      <div class="ch-status ${c.status}">${c.status==="live"?"Live now":"Upcoming"}</div>
+      <div class="ch-title">${c.title}</div>
+      <div class="ch-desc">${c.desc}</div>
+      <div class="ch-rewards">${rewards}</div>
+      ${actionBtn}
+    </div>`;
+  }).join("");
+  grid.querySelectorAll("[data-challenge]").forEach(el=>el.addEventListener("click",()=>joinChallenge(parseInt(el.dataset.challenge,10), parseInt(el.dataset.xp,10))));
+}
+
+function joinChallenge(idx,xpAmount){
+  if(state.joinedChallenges.includes(idx)) return;
+  state.joinedChallenges.push(idx);
+  addXP(xpAmount,"Challenge joined");
+  renderChallenges();
+}
+
+/* ---------- canvas wars ---------- */
+function renderEvents(){
+  const list = document.getElementById("event-list");
+  list.innerHTML = QF_EVENTS.map(ev=>{
+    if(ev.status==="done"){
+      const rows = ev.leaderboard.map(row=>`
+        <div class="lb-row">
+          <div class="lb-rank${row.rank===1?" gold":""}">${row.rank}</div>
+          <div>${row.name}</div>
+          <div>${row.badge?`<span class="lb-badge">${row.badge}</span>`:""}</div>
+          <div class="lb-pts">${row.pts}</div>
+        </div>`).join("");
+      const sponsors = ev.sponsors.map(s=>`<span class="sponsor-tag">${s}</span>`).join("");
+      return `<div class="event-card">
+        <div class="event-status done">${ev.label}</div>
+        <div class="event-title">${ev.title}</div>
+        <div class="event-meta">${iconHTML("pin")} ${ev.meta}</div>
+        <div class="lb-table">${rows}</div>
+        <div class="sponsor-row">${sponsors}</div>
+      </div>`;
+    }
+    return `<div class="event-card upcoming">
+      <div class="event-status upcoming">${ev.label}</div>
+      <div class="event-title">${ev.title}</div>
+      <div class="event-meta">${iconHTML("pin")} ${ev.meta}</div>
+      <div class="event-desc">${ev.description}</div>
+      <button class="btn hazard sm" id="monstober-cta">Get notified</button>
+    </div>`;
+  }).join("");
+  const cta = document.getElementById("monstober-cta");
+  if(cta) cta.addEventListener("click",()=>showToast("You're on the MonsTober list"));
+}
+
+/* ---------- music ---------- */
+function renderTracks(){
+  const grid = document.getElementById("track-grid");
+  grid.innerHTML = QF_TRACKS.map(t=>`
+    <div class="track-card">
+      <div class="track-art" style="--tc:${t.color}">
+        ${iconHTML("music")}
+        <div class="track-play">${iconHTML("play")}</div>
+      </div>
+      <div class="track-info">
+        <div class="track-title">${t.title}</div>
+        <div class="track-sub">JawsAtak47</div>
+        <div class="track-lore-tag">${t.lore}</div>
+      </div>
+    </div>`).join("");
+}
+
+/* ---------- init ---------- */
+renderCharGrid();
+renderZineCovers();
+renderSchools();
+renderChallenges();
+renderEvents();
+renderTracks();
+renderXP();
+
+})();
+</script>
 </body>
 </html>
