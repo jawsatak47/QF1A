@@ -986,14 +986,32 @@ const charsList = document.getElementById("chars-list");
 const charsDetail = document.getElementById("chars-detail");
 
 function renderCharGrid(){
-  charGrid.innerHTML = QF_CHARACTERS.map(c=>`
-    <div class="char-card" data-char="${c.id}" style="--cc:${c.color}">
-      <div class="char-swatch">${initials(c.name)}</div>
-      <div class="char-name">${c.name}</div>
-      <div class="char-role">${c.role}</div>
-      <div class="char-world-tag">${c.world}</div>
-    </div>`).join("");
-  charGrid.querySelectorAll("[data-char]").forEach(el=>el.addEventListener("click",()=>openCharDetail(el.dataset.char)));
+    charGrid.innerHTML = QF_CHARACTERS.map(c=>`
+        <div class="char-card" data-char="${c.id}" style="--cc:${c.color}">
+            ${c.image 
+                ? `<a href="${c.image}" target="_blank" title="View full PNG" style="display: block;">
+                     <div class="char-swatch">${initials(c.name)}</div>
+                   </a>`
+                : `<div class="char-swatch">${initials(c.name)}</div>`
+            }
+            <div class="char-name" data-open="${c.id}">${c.name}</div>
+            <div class="char-role" data-open="${c.id}">${c.role}</div>
+            <div class="char-world-tag" data-open="${c.id}">${c.world}</div>
+        </div>`).join("");
+
+    // Clicking the text/card opens the profile detail view
+    charGrid.querySelectorAll("[data-open]").forEach(el => {
+        el.addEventListener("click", () => openCharDetail(el.closest(".char-card").dataset.char));
+    });
+    
+    // Also allow clicking the swatch area directly if there's no image
+    charGrid.querySelectorAll(".char-card").forEach(card => {
+        card.querySelector(".char-swatch").addEventListener("click", (e) => {
+            if(!card.querySelector("a")) {
+                openCharDetail(card.dataset.char);
+            }
+        });
+    });
 }
 
 function openCharDetail(id){
